@@ -16,3 +16,9 @@ func DeletarUsuario(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("DeletarUsuario "))
 
 }
+
+
+func AtualizarUsuario(w http.ResponseWriter, r *http.Request){
+	w.Write([]byte("Atualizar Usuario"))
+
+}
