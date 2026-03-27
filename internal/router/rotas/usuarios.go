@@ -1,20 +1,28 @@
 package rotas
 
-import "net/http"
+import (
+	"net/http"
+
+	controllers "github.com/viniciuswilker/estudeIA-golang/internal/controllers/api"
+)
 
 var rotasUsuarios = []Rota{
 	{
-		URI:    "/usuarios",
-		Metodo: http.MethodGet,
-		Funcao: func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("LISTANDO USUARIOS"))
-		},
+		URI:                "/usuarios",
+		Metodo:             http.MethodGet,
+		Funcao:             controllers.ListarUsuarios,
+		RequerAutenticacao: false,
 	},
 	{
-		URI:    "/usuarios",
-		Metodo: http.MethodPost,
-		Funcao: func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("CRIANDO USUARIO"))
-		},
+		URI:                "/usuarios",
+		Metodo:             http.MethodPost,
+		Funcao:             controllers.CadastroUsuario,
+		RequerAutenticacao: false,
+	},
+	{
+		URI:                "/usuarios",
+		Metodo:             http.MethodDelete,
+		Funcao:             controllers.DeletarUsuario,
+		RequerAutenticacao: false,
 	},
 }

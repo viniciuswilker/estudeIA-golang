@@ -11,11 +11,9 @@ import (
 
 func main() {
 	config.CarregarConfigs()
-
-	log.Printf("Rodando na porta: %d", config.Porta)
-
 	r := router.CarregarRotas()
 
+	log.Printf("Rodando na porta: %d", config.Porta)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Porta), r))
 
 }
