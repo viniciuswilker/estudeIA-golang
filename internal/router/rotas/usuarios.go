@@ -9,27 +9,26 @@ import (
 var rotasUsuarios = []Rota{
 	{
 		URI:                "/usuarios",
-		Metodo:             http.MethodGet,
+		Metodo:             []string{http.MethodGet, http.MethodPost},
 		Funcao:             controllers.ListarUsuarios,
 		RequerAutenticacao: false,
 	},
 	{
 		URI:                "/usuarios",
-		Metodo:             http.MethodPost,
+		Metodo:             []string{http.MethodGet, http.MethodPost},
 		Funcao:             controllers.CadastroUsuario,
 		RequerAutenticacao: false,
 	},
 	{
 		URI:                "/usuarios",
-		Metodo:             http.MethodDelete,
+		Metodo:             []string{http.MethodGet, http.MethodPost},
 		Funcao:             controllers.DeletarUsuario,
 		RequerAutenticacao: false,
 	},
 	{
-		URI: "/usuarios",
-		Metodo: http.MethodPut,
-		Funcao: controllers.AtualizarUsuario,
+		URI:                "/usuarios",
+		Metodo:             []string{http.MethodGet, http.MethodPost},
+		Funcao:             controllers.AtualizarUsuario,
 		RequerAutenticacao: false,
 	},
-
 }

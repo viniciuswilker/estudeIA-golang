@@ -8,7 +8,7 @@ import (
 
 type Rota struct {
 	URI                string
-	Metodo             string
+	Metodo             []string
 	Funcao             func(http.ResponseWriter, *http.Request)
 	RequerAutenticacao bool
 }
@@ -19,11 +19,11 @@ func Configurar(r *mux.Router) *mux.Router {
 	web := r.PathPrefix("/").Subrouter()
 
 	for _, rota := range rotasUsuarios {
-		api.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo)
+		api.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo...)
 	}
 
 	for _, rota := range rotasWeb {
-		web.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo)
+		web.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo...)
 	}
 
 	return r

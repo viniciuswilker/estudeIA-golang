@@ -9,15 +9,22 @@ import (
 var rotasWeb = []Rota{
 	{
 		URI:                "/login",
-		Metodo:             http.MethodGet,
+		Metodo:             []string{http.MethodGet, http.MethodPost},
 		Funcao:             controllers.LoginWeb,
 		RequerAutenticacao: false,
 	},
 
 	{
 		URI:                "/home",
-		Metodo:             http.MethodGet,
+		Metodo:             []string{http.MethodGet, http.MethodPost},
 		Funcao:             controllers.HomeWeb,
 		RequerAutenticacao: false,
 	},
+	{
+		URI:                "/cadastro",
+		Metodo:             []string{http.MethodGet, http.MethodPost},
+		Funcao: controllers.CadastroWeb,
+		RequerAutenticacao: false,
+	},
+
 }
