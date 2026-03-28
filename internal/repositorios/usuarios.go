@@ -32,5 +32,24 @@ func (repositorio usuarios) Criar(usuario models.Usuario) (uint64, error) {
 		return 0, nil
 	}
 	return uint64(ultimoId), nil
+}
+
+func (repositorio usuarios) BuscarPorEmail(email string) (models.Usuario, error) {
+
+	row, err := repositorio.db.Query("select id, senha from usuarios where email = ?", email)
+	if err != nil {
+		return models.Usuario{}, err
+	}
+	defer row.Close()
+
+	var usuario models.Usuario
+
+	if row.Next() {
+		if err := row.Scan(&usuario.ID, &usuario.Senha); err != nil {
+			return models.Usuario{}, err
+		}
+	}
+
+	return usuario, nil
 
 }

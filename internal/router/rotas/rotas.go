@@ -14,12 +14,19 @@ type Rota struct {
 }
 
 func Configurar(r *mux.Router) *mux.Router {
-
 	api := r.PathPrefix("/api").Subrouter()
 	web := r.PathPrefix("/").Subrouter()
 
-	for _, rota := range rotasUsuarios {
-		api.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo...)
+	gruposAPI := [][]Rota{
+		rotasUsuarios,
+		rotasAuth,
+		rotasGerais,
+	}
+
+	for _, grupo := range gruposAPI {
+		for _, rota := range grupo {
+			api.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo...)
+		}
 	}
 
 	for _, rota := range rotasWeb {

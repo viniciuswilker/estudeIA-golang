@@ -7,7 +7,7 @@ import (
 
 	"github.com/viniciuswilker/estudeIA-golang/internal/database"
 	"github.com/viniciuswilker/estudeIA-golang/internal/models"
-	"github.com/viniciuswilker/estudeIA-golang/internal/repository"
+	repository "github.com/viniciuswilker/estudeIA-golang/internal/repositorios"
 )
 
 func CadastroWeb(w http.ResponseWriter, r *http.Request) {

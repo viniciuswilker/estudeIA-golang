@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"text/template"
 )
@@ -9,10 +8,6 @@ import (
 func LoginWeb(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
-	case "POST":
-		w.Write([]byte("POST NA ROTA DE LOGIN"))
-		fmt.Println("POST NA ROTA DE LOGIN")
-
 	case "GET":
 		t, err := template.ParseFiles("templates/login.html")
 		if err != nil {
