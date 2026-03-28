@@ -56,7 +56,7 @@ func (repositorio usuarios) BuscarPorEmail(email string) (models.Usuario, error)
 
 func (repositorios usuarios) BuscarPorID(id uint64) (models.Usuario, error) {
 
-	row, err := repositorios.db.Query("selec id, nome, sobrenome, username, email, criadoEm from usuarios where id = ?", id)
+	row, err := repositorios.db.Query("select id, nome, sobrenome, username, email, criadoEm from usuarios where id = ?", id)
 	if err != nil {
 		return models.Usuario{}, err
 	}

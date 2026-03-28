@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"text/template"
 
@@ -17,6 +18,7 @@ func HomeWeb(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}
+		fmt.Printf("Entrou na Home. Usuario: %v\n", usuario.Username)
 
 		t, err := template.ParseFiles("templates/home.html")
 		if err != nil {

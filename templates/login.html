@@ -90,7 +90,7 @@
 
 <body>
 
-    <form method="POST" action="/login">
+    <form method="POST" action="/login" id="form-login">
         <h1>Login</h1>
 
         <div>
@@ -107,6 +107,42 @@
             Não tem conta? <a href="/cadastro">Cadastre-se</a>
         </p>
     </form>
+
+    <script>
+        document.getElementById('form-login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const resultado = await response.json();
+
+                    // Lembre-se: No Go, retornamos {"token": "...", "id": "..."}
+                    // Para rotas WEB, o ideal é que o próprio Go já tenha setado o Cookie.
+                    // Se for SPA (React/Vue), você salvaria o token aqui.
+
+                    window.location.href = '/home';
+                } else {
+                    const erroTexto = await response.text();
+                    alert("Erro: " + erroTexto);
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                alert('Erro ao conectar com o servidor.');
+            }
+        });
+
+    </script>
 
 </body>
 

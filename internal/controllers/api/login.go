@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -38,6 +39,7 @@ func LoginAPI(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "E-mail ou senha inválidos", http.StatusUnauthorized)
 		return
 	}
+	fmt.Printf("Rota de API solicitada. Usuario: %v\n", usuario.Email)
 
 	if err := auxiliar.VerificarSenha(usuarioSalvo.Senha, usuario.Senha); err != nil {
 		http.Error(w, "E-mail ou senha inválidos", http.StatusUnauthorized)
@@ -49,9 +51,20 @@ func LoginAPI(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Erro ao gerar token", http.StatusInternalServerError)
 		return
 	}
+	fmt.Printf("USUARIO: %v , ID: %v. Autenticado com sucesso\n", usuario.Email, usuarioSalvo.ID)
 
+	http.SetCookie(w, &http.Cookie{
+		Name:     "token",
+		Value:    token,
+		Path:     "/",
+		HttpOnly: true,
+		MaxAge:   21600,
+		SameSite: http.SameSiteLaxMode,
+	})
 	w.Header().Set("Content-Type", "application/json")
+
 	w.WriteHeader(http.StatusOK)
+
 	json.NewEncoder(w).Encode(map[string]string{
 		"token": token,
 		"id":    strconv.FormatUint(usuarioSalvo.ID, 10),
