@@ -53,3 +53,32 @@ func (repositorio usuarios) BuscarPorEmail(email string) (models.Usuario, error)
 	return usuario, nil
 
 }
+
+func (repositorios usuarios) BuscarPorID(id uint64) (models.Usuario, error) {
+
+	row, err := repositorios.db.Query("selec id, nome, sobrenome, username, email, criadoEm from usuarios where id = ?", id)
+	if err != nil {
+		return models.Usuario{}, err
+	}
+
+	defer row.Close()
+
+	var usuario models.Usuario
+
+	if row.Next() {
+
+		if err := row.Scan(
+			&usuario.ID,
+			&usuario.Nome,
+			&usuario.Sobrenome,
+			&usuario.Username,
+			&usuario.Email,
+			&usuario.CriadoEm,
+		); err != nil {
+			return models.Usuario{}, err
+		}
+
+	}
+	return usuario, nil
+
+}

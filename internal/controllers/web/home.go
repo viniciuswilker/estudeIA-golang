@@ -3,12 +3,20 @@ package controllers
 import (
 	"net/http"
 	"text/template"
+
+	"github.com/viniciuswilker/estudeIA-golang/internal/auxiliar"
 )
 
 func HomeWeb(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
+
+		usuario, err := auxiliar.ValidaSessao(r)
+		if err != nil {
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			return
+		}
 
 		t, err := template.ParseFiles("templates/home.html")
 		if err != nil {
@@ -20,8 +28,8 @@ func HomeWeb(w http.ResponseWriter, r *http.Request) {
 			NomeUsuario  string
 			EmailUsuario string
 		}{
-			NomeUsuario:  "vinicius",
-			EmailUsuario: "vincius@email.com",
+			NomeUsuario:  usuario.Nome,
+			EmailUsuario: usuario.Email,
 		}
 
 		t.Execute(w, items)

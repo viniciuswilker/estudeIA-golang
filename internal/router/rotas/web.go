@@ -12,18 +12,21 @@ var rotasWeb = []Rota{
 		Metodo:             []string{http.MethodGet},
 		Funcao:             controllers.LoginWeb,
 		RequerAutenticacao: false,
+		TiposPermitidos:    nil,
 	},
 
 	{
 		URI:                "/home",
 		Metodo:             []string{http.MethodGet},
 		Funcao:             controllers.HomeWeb,
-		RequerAutenticacao: false,
+		RequerAutenticacao: true,
+		TiposPermitidos:    []string{"A", "U"},
 	},
 	{
 		URI:                "/cadastro",
 		Metodo:             []string{http.MethodGet, http.MethodPost},
 		Funcao:             controllers.CadastroWeb,
 		RequerAutenticacao: false,
+		TiposPermitidos:    nil,
 	},
 }

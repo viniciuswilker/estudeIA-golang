@@ -59,7 +59,6 @@ func CadastroWeb(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// redireciona para login
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 
 	case "GET":
