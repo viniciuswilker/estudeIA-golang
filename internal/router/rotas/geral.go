@@ -10,6 +10,6 @@ var rotasGerais = []Rota{
 			w.Write([]byte("pong"))
 		},
 		RequerAutenticacao: false,
-		TiposPermitidos:    []string{"A", "U"},
+		TiposPermitidos:    nil,
 	},
 }
