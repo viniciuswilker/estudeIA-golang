@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/viniciuswilker/estudeIA-golang/internal/auxiliar"
 	"github.com/viniciuswilker/estudeIA-golang/internal/database"
 	"github.com/viniciuswilker/estudeIA-golang/internal/models"
 	repository "github.com/viniciuswilker/estudeIA-golang/internal/repositorios"
@@ -35,6 +36,10 @@ func LoginAPI(w http.ResponseWriter, r *http.Request) {
 
 	usuarioSalvo, err := repositorio.BuscarPorEmail(usuario.Email)
 	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := auxiliar.VerificarSenha(usuarioSalvo.Senha, usuario.Senha); err != nil {
 		log.Fatal(err)
 	}
 
