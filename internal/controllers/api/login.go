@@ -2,47 +2,58 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
-	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/viniciuswilker/estudeIA-golang/internal/auxiliar"
 	"github.com/viniciuswilker/estudeIA-golang/internal/database"
 	"github.com/viniciuswilker/estudeIA-golang/internal/models"
-	repository "github.com/viniciuswilker/estudeIA-golang/internal/repositorios"
+	"github.com/viniciuswilker/estudeIA-golang/internal/repositorios"
 )
 
 func LoginAPI(w http.ResponseWriter, r *http.Request) {
 	corpoReq, err := io.ReadAll(r.Body)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, "Erro ao ler corpo da requisição", http.StatusBadRequest)
+		return
 	}
 
 	var usuario models.Usuario
-
 	if err := json.Unmarshal(corpoReq, &usuario); err != nil {
-		log.Fatal(err)
+		http.Error(w, "JSON inválido", http.StatusBadRequest)
+		return
 	}
 
 	db, err := database.ConectaBanco()
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, "Erro ao conectar ao banco", http.StatusInternalServerError)
+		return
 	}
 	defer db.Close()
 
-	repositorio := repository.NovoRepositorioDeUsuarios(db)
-	fmt.Println("----- CHAMANDO REPO -----")
-
+	repositorio := repositorios.NovoRepositorioDeUsuarios(db)
 	usuarioSalvo, err := repositorio.BuscarPorEmail(usuario.Email)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, "E-mail ou senha inválidos", http.StatusUnauthorized)
+		return
 	}
 
 	if err := auxiliar.VerificarSenha(usuarioSalvo.Senha, usuario.Senha); err != nil {
-		log.Fatal(err)
+		http.Error(w, "E-mail ou senha inválidos", http.StatusUnauthorized)
+		return
 	}
 
-	fmt.Println("----- RESPOSTA LOGIN -----")
-	fmt.Println(usuarioSalvo)
+	token, erro := auxiliar.GerarToken(usuarioSalvo.ID, usuarioSalvo.TipoUsuario)
+	if erro != nil {
+		http.Error(w, "Erro ao gerar token", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{
+		"token": token,
+		"id":    strconv.FormatUint(usuarioSalvo.ID, 10),
+	})
 }

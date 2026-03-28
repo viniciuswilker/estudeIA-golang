@@ -12,23 +12,27 @@ var rotasUsuarios = []Rota{
 		Metodo:             []string{http.MethodGet, http.MethodPost},
 		Funcao:             controllers.ListarUsuarios,
 		RequerAutenticacao: false,
+		TiposPermitidos:    []string{"A", "U"},
 	},
 	{
 		URI:                "/usuarios",
 		Metodo:             []string{http.MethodGet, http.MethodPost},
 		Funcao:             controllers.CadastroUsuario,
 		RequerAutenticacao: false,
+		TiposPermitidos:    []string{"A", "U"},
 	},
 	{
 		URI:                "/usuarios",
 		Metodo:             []string{http.MethodGet, http.MethodPost},
 		Funcao:             controllers.DeletarUsuario,
 		RequerAutenticacao: false,
+		TiposPermitidos:    []string{"A", "U"},
 	},
 	{
 		URI:                "/usuarios",
 		Metodo:             []string{http.MethodGet, http.MethodPost},
 		Funcao:             controllers.AtualizarUsuario,
 		RequerAutenticacao: false,
+		TiposPermitidos:    []string{"A", "U"},
 	},
 }

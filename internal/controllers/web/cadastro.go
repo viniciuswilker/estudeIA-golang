@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"text/template"
 
+	"github.com/viniciuswilker/estudeIA-golang/internal/auxiliar"
 	"github.com/viniciuswilker/estudeIA-golang/internal/database"
 	"github.com/viniciuswilker/estudeIA-golang/internal/models"
 	repository "github.com/viniciuswilker/estudeIA-golang/internal/repositorios"
@@ -28,6 +29,12 @@ func CadastroWeb(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		senhaComHash, err := auxiliar.Hash(senha)
+		if err != nil {
+			http.Error(w, "Erro ao processar a senha", http.StatusInternalServerError)
+			return
+		}
+
 		db, err := database.ConectaBanco()
 		if err != nil {
 			http.Error(w, "Erro ao conectar no banco", 500)
@@ -42,7 +49,7 @@ func CadastroWeb(w http.ResponseWriter, r *http.Request) {
 			Nome:        nome,
 			Sobrenome:   sobrenome,
 			Email:       email,
-			Senha:       senha,
+			Senha:       string(senhaComHash),
 			TipoUsuario: "A",
 		}
 

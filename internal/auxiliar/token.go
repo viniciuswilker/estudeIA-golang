@@ -13,12 +13,14 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-func GerarToken(usuarioID uint64) (string, error) {
+func GerarToken(usuarioID uint64, tipo string) (string, error) {
 	permissoes := jwt.MapClaims{}
 
 	permissoes["authorized"] = true
 	permissoes["exp"] = time.Now().Add(time.Hour * 6).Unix()
 	permissoes["usuarioId"] = usuarioID
+	permissoes["tipo"] = tipo
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, permissoes)
 
 	return token.SignedString([]byte(config.SecretKey))
@@ -73,4 +75,19 @@ func ExtrairUsuarioID(r *http.Request) (uint64, error) {
 	}
 
 	return 0, errors.New("Token inválido")
+}
+
+func ExtrairTipoUsuario(r *http.Request) (string, error) {
+	tokenString := extrairToken(r)
+	token, erro := jwt.Parse(tokenString, retornarChaveDeVerificacao)
+	if erro != nil {
+		return "", erro
+	}
+
+	if permissoes, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		tipo := fmt.Sprintf("%v", permissoes["tipo"])
+		return tipo, nil
+	}
+
+	return "", errors.New("Token inválido")
 }

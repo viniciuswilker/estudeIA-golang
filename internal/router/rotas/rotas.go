@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/viniciuswilker/estudeIA-golang/internal/middlewares"
 )
 
 type Rota struct {
@@ -11,6 +12,7 @@ type Rota struct {
 	Metodo             []string
 	Funcao             func(http.ResponseWriter, *http.Request)
 	RequerAutenticacao bool
+	TiposPermitidos    []string
 }
 
 func Configurar(r *mux.Router) *mux.Router {
@@ -20,12 +22,23 @@ func Configurar(r *mux.Router) *mux.Router {
 	gruposAPI := [][]Rota{
 		rotasUsuarios,
 		rotasAuth,
+		rotasAdmin,
 		rotasGerais,
 	}
 
 	for _, grupo := range gruposAPI {
 		for _, rota := range grupo {
-			api.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo...)
+			var handler http.HandlerFunc = rota.Funcao
+
+			if rota.RequerAutenticacao {
+				handler = middlewares.Autenticar(handler)
+
+				if len(rota.TiposPermitidos) > 0 && rota.TiposPermitidos[0] != "" {
+					handler = middlewares.VerificarPermissao(handler, rota.TiposPermitidos)
+				}
+			}
+
+			api.HandleFunc(rota.URI, handler).Methods(rota.Metodo...)
 		}
 	}
 

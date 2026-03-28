@@ -1,4 +1,4 @@
-package repository
+package repositorios
 
 import (
 	"database/sql"

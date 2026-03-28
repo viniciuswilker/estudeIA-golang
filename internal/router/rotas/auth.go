@@ -12,11 +12,13 @@ var rotasAuth = []Rota{
 		Metodo:             []string{http.MethodPost},
 		Funcao:             controllers.LoginAPI,
 		RequerAutenticacao: false,
+		TiposPermitidos:    nil,
 	},
 	{
 		URI:                "/auth/logout",
 		Metodo:             []string{http.MethodPost},
 		Funcao:             func(w http.ResponseWriter, r *http.Request) {},
 		RequerAutenticacao: true,
+		TiposPermitidos:    []string{"A", "U"},
 	},
 }
