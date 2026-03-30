@@ -8,7 +8,7 @@ import (
 	"github.com/viniciuswilker/estudeIA-golang/internal/auxiliar"
 	"github.com/viniciuswilker/estudeIA-golang/internal/database"
 	"github.com/viniciuswilker/estudeIA-golang/internal/models"
-	repository "github.com/viniciuswilker/estudeIA-golang/internal/repositorios"
+	"github.com/viniciuswilker/estudeIA-golang/internal/repositorios"
 )
 
 func CadastroWeb(w http.ResponseWriter, r *http.Request) {
@@ -42,7 +42,7 @@ func CadastroWeb(w http.ResponseWriter, r *http.Request) {
 		}
 		defer db.Close()
 
-		repositorio := repository.NovoRepositorioDeUsuarios(db)
+		repositorio := repositorios.NovoRepositorioDeUsuarios(db)
 
 		usuario := models.Usuario{
 			Username:    username,

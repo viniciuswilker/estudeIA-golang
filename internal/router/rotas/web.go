@@ -29,4 +29,11 @@ var rotasWeb = []Rota{
 		RequerAutenticacao: false,
 		TiposPermitidos:    nil,
 	},
+	{
+		URI:                "/configuracoes",
+		Metodo:             []string{http.MethodGet, http.MethodPost},
+		Funcao:             controllers.ConfiguracoesWeb,
+		RequerAutenticacao: true,
+		TiposPermitidos:    []string{"A", "U"},
+	},
 }

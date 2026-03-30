@@ -8,6 +8,7 @@ import (
 
 func CarregarRotas() *mux.Router {
 	r := mux.NewRouter()
+
 	r = rotas.Configurar(r)
 
 	r.Use(middlewares.Logger)

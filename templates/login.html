@@ -127,10 +127,6 @@
                 if (response.ok) {
                     const resultado = await response.json();
 
-                    // Lembre-se: No Go, retornamos {"token": "...", "id": "..."}
-                    // Para rotas WEB, o ideal é que o próprio Go já tenha setado o Cookie.
-                    // Se for SPA (React/Vue), você salvaria o token aqui.
-
                     window.location.href = '/home';
                 } else {
                     const erroTexto = await response.text();
