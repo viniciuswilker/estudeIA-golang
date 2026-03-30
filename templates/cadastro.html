@@ -340,6 +340,13 @@
 
                             <form id="stripe-login" action="/cadastro" method="POST">
 
+                                {{range .Erros}}
+                                    <p style="color:red;">{{.}}</p>
+                                {{end}}
+
+                                {{range .Sucessos}}
+                                    <p style="color:green;">{{.}}</p>
+                                {{end}}
 
                                 <div class="field padding-bottom--24">
                                     <label for="nome">Nome</label>

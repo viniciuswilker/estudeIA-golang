@@ -13,9 +13,11 @@ func LoginWeb(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/home", http.StatusSeeOther)
 		return
 	}
+	
 
 	switch r.Method {
 	case "GET":
+
 		t, err := template.ParseFiles("templates/login.html")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

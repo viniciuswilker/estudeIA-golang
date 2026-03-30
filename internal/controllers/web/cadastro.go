@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"text/template"
 
+	"github.com/gorilla/sessions"
 	"github.com/viniciuswilker/estudeIA-golang/internal/auxiliar"
 	"github.com/viniciuswilker/estudeIA-golang/internal/database"
 	"github.com/viniciuswilker/estudeIA-golang/internal/models"
@@ -12,6 +13,8 @@ import (
 )
 
 func CadastroWeb(w http.ResponseWriter, r *http.Request) {
+	
+	var store = sessions.NewCookieStore([]byte("chave-secreta"))
 	switch r.Method {
 	case "POST":
 		log.Println("POST NA ROTA DE CADASTRO")
@@ -25,7 +28,10 @@ func CadastroWeb(w http.ResponseWriter, r *http.Request) {
 		confirmar_senha := r.FormValue("confirma_senha")
 
 		if senha != confirmar_senha {
-			w.Write([]byte("as senhas não coincidem"))
+			session, _ := store.Get(r, "session")
+			session.AddFlash("As senhas não coincidem", "erro" )
+			session.Save(r,w)
+			http.Redirect(w, r, "/cadastro", http.StatusSeeOther)
 			return
 		}
 
@@ -59,15 +65,30 @@ func CadastroWeb(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		http.Redirect(w, r, "/login?sucesso=1", http.StatusSeeOther)
 
 	case "GET":
+		
 		t, err := template.ParseFiles("templates/cadastro.html")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		t.Execute(w, nil)
+
+		session, _ := store.Get(r, "session")
+		erros := session.Flashes("erro")
+		sucessos := session.Flashes("sucesso")
+		session.Save(r,w)
+
+		items := struct {
+		Erros []interface{}
+		Sucessos []interface{} 
+		}{
+			Erros: erros,
+			Sucessos: sucessos,
+		}
+
+		t.Execute(w, items)
 	default:
 		w.Write([]byte("Erro no metodo"))
 	}
