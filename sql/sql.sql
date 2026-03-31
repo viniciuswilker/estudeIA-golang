@@ -1,14 +1,27 @@
-CREATE DATABASE IF NOT EXISTS estudeia;
+CREATE DATABASE IF NOT EXISTS fazendadb;
+USE fazendadb;
 
 DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS fazendas;
 
-CREATE table usuarios (
-    id int auto_increment primary key,
-    username varchar(100) not null unique,
-    nome varchar(50) not null,
-    sobrenome varchar(50) not null,
-    email varchar(60) not null unique,
-    senha varchar(255) not null,
-    tipo_usuario enum('A', 'U') NOT NULL DEFAULT 'A',
-    criadoEm timestamp default current_timestamp()
-)ENGINE=INNODB;
+CREATE TABLE fazendas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    endereco VARCHAR(255),
+    codigo_fazenda VARCHAR(10) NOT NULL UNIQUE,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=INNODB;
+
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    nome VARCHAR(50) NOT NULL,
+    sobrenome VARCHAR(50) NOT NULL,
+    email VARCHAR(60) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    tipo_usuario ENUM('A', 'U') NOT NULL DEFAULT 'U', 
+    criadoEm TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fazenda_id INT NOT NULL,
+    CONSTRAINT fk_usuario_fazenda 
+    FOREIGN KEY (fazenda_id) REFERENCES fazendas(id)
+) ENGINE=INNODB;
