@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/gorilla/sessions"
 	"github.com/joho/godotenv"
 )
 
@@ -14,6 +15,7 @@ var (
 	StringBanco = ""
 	SecretKey   []byte
 )
+var Store = sessions.NewCookieStore([]byte("sua-chave-secreta-muito-segura"))
 
 func CarregarConfigs() {
 	var err error

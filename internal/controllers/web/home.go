@@ -29,9 +29,13 @@ func HomeWeb(w http.ResponseWriter, r *http.Request) {
 		items := struct {
 			NomeUsuario  string
 			EmailUsuario string
+			TituloPagina string
+			Titulo       string
 		}{
 			NomeUsuario:  usuario.Nome,
 			EmailUsuario: usuario.Email,
+			TituloPagina: "Dashboard",
+			Titulo:       fmt.Sprintf("Bem vindo, %s", usuario.Nome),
 		}
 
 		t.Execute(w, items)
