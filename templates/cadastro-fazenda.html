@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            margin-top: 20px;
+            color: #2E7D32;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #388E3C;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Cadastro</h2>
+        {{range .Erros}}
+        <div style="background-color: #ffcccc; color: #cc0000; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+            {{.}}
+        </div>
+        {{end}}
+
+        {{range .Sucessos}}
+        <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+            {{.}}
+        </div>
+        {{end}}
+
+        <form method="POST" action="/fazendas">
+
+            <h3>👤 Usuário</h3>
+
+            <label>Nome</label>
+            <input type="text" name="nome_usuario" required>
+
+            <label>Sobrenome</label>
+            <input type="text" name="sobrenome_usuario" required>
+
+            <label>Email</label>
+            <input type="email" name="email_usuario" required>
+
+            <label>Senha</label>
+            <input type="password" name="senha_usuario" required>
+
+            <label>Confirme a Senha</label>
+            <input type="password" name="confirma_senha" required>
+
+            <label>Username</label>
+            <input type="text" name="username_usuario" required>
+
+
+            <h3>🌾 Fazenda</h3>
+
+            <label>Código da Fazenda</label>
+            <input type="text" name="codigo_fazenda" required>
+
+            <label>Nome da Fazenda</label>
+            <input type="text" name="nome_fazenda" required>
+
+            <label>Endereço</label>
+            <input type="text" name="endereco_fazenda" required>
+
+            <button type="submit">Cadastrar</button>
+
+        </form>
+    </div>
+
+</body>
+
+</html>

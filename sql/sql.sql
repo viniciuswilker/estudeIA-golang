@@ -12,6 +12,7 @@ CREATE TABLE fazendas (
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=INNODB;
 
+
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL UNIQUE,
@@ -25,3 +26,8 @@ CREATE TABLE usuarios (
     CONSTRAINT fk_usuario_fazenda 
     FOREIGN KEY (fazenda_id) REFERENCES fazendas(id)
 ) ENGINE=INNODB;
+
+ALTER TABLE fazendas 
+ADD COLUMN dono_id INT,
+ADD CONSTRAINT fk_fazenda_dono 
+FOREIGN KEY (dono_id) REFERENCES usuarios(id);

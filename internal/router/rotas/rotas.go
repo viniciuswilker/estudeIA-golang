@@ -45,6 +45,9 @@ func Configurar(r *mux.Router) *mux.Router {
 	for _, rota := range rotasWeb {
 		web.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo...)
 	}
+	for _, rota := range rotasFazendas {
+		web.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo...)
+	}
 
 	return r
 }
